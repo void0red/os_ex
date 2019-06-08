@@ -32,6 +32,14 @@ int main(){
 
     pthread_join(sort1, NULL);
     pthread_join(sort2, NULL);
+    for(int i = 0; i < sort1_param.num; ++i) {
+        printf("%d ", sort1_param.data[i]);
+    }
+    printf("\n");
+    for(int i = 0; i < sort2_param.num; ++i) {
+        printf("%d ", sort2_param.data[i]);
+    }
+    printf("\n");
 
     pthread_t merge1;
     sort_param merge_param = {

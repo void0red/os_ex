@@ -89,14 +89,19 @@ static int handle_input(char* line, cmd_queue* obj) {
         fprintf(stderr, "%s\n", "ERROR: fork()");
         return ret;
     }else if(pid == 0) {
+        if (back) {
+            close(0);
+            close(1);
+            close(2);
+        }
         execvp(param[0], param);
         perror("error");
         exit(0);
     }else {
         queue_add(obj, line);
-	if (!back) {
+        if (!back) {
             wait(&ret);
-	}
+        }
         ret = 1;
     }
     return ret;
@@ -111,11 +116,11 @@ static int check_param(char* param, char* ret[max_param]) {
         ret[cnt++] = p;
     }
     if(ret[cnt-1][0] == '&') {
-	ret[cnt-1] = NULL;
-	return 1;
+        ret[cnt-1] = NULL;
+        return 1;
     } else{
-	ret[cnt] = NULL;
-	return 0;
+        ret[cnt] = NULL;
+        return 0;
     }
 }
 

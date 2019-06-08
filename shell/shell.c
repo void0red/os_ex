@@ -56,6 +56,8 @@ int main() {
         }
         if(buf[strlen(buf)-1] == '\n')
             buf[strlen(buf)-1] = '\0';
+        if(strlen(buf) <= 0)
+            continue;
         run = handle_input(buf, &history);
     }
     queue_dele(&history);
@@ -68,7 +70,7 @@ static int handle_input(char* line, cmd_queue* obj) {
     char* param[max_param];
     char line_brk[strlen(line)+1];
     strcpy(line_brk, line);
-    check_param(line_brk, param);
+    int back = check_param(line_brk, param);
     key_word key = check_key_word(param[0]);
     switch(key) {
         case k_exit:
@@ -92,7 +94,9 @@ static int handle_input(char* line, cmd_queue* obj) {
         exit(0);
     }else {
         queue_add(obj, line);
-        wait(&ret);
+	if (!back) {
+            wait(&ret);
+	}
         ret = 1;
     }
     return ret;
@@ -106,8 +110,13 @@ static int check_param(char* param, char* ret[max_param]) {
     while((p = strtok(NULL, " "))) {
         ret[cnt++] = p;
     }
-    ret[cnt++] = NULL;
-    return cnt;
+    if(ret[cnt-1][0] == '&') {
+	ret[cnt-1] = NULL;
+	return 1;
+    } else{
+	ret[cnt] = NULL;
+	return 0;
+    }
 }
 
 static key_word check_key_word(char *key) {
@@ -179,4 +188,3 @@ static void queue_print(cmd_queue* obj) {
             break;
     }
 }
-

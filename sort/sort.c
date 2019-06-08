@@ -88,6 +88,7 @@ void merge(void* arg) {
             for(int _i = i+1; _i < d->num; ++_i) {
                 data[_i] = p1[j++];
             }
+            break;
         }
     }
 

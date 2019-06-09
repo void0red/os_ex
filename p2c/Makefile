@@ -1,12 +1,12 @@
-obj = p2c.o
+obj = p2c_1.o
 CC = gcc
 CFLAGS = -O3 -Wall -s
 LDFLAGS = -l pthread
-sort:$(obj)
-	$(CC) $(CFLAGS) $(obj) -o p2c $(LDFLAGS)
+p2c_1:$(obj)
+	$(CC) $(CFLAGS) $(obj) -o p2c_1 $(LDFLAGS)
 
-p2c.o:p2c.c
-	@$(CC) $(CFLAGS) -c p2c.c
+p2c_1.o:p2c_1.c
+	@$(CC) $(CFLAGS) -c p2c_1.c
 
 clean:
-	@rm -rf $(obj) p2c
+	@rm -rf $(obj) p2c_1
